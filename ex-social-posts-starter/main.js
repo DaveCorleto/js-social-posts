@@ -72,9 +72,7 @@ const posts = [
 
 // seleziono l'elemento che popolerò con il ciclo foreach 
 
-const singlePost = document.getElementById("container");
-
-
+const container = document.getElementById("container");
 
 posts.forEach (Element => { 
 
@@ -87,11 +85,11 @@ posts.forEach (Element => {
 
     const myPost = 
        `
-        <div class="post">
+        <div class="post" data-id="${id}">
         <div class="post__header">
             <div class="post-meta">                    
                 <div class="post-meta__icon">
-                    <img class="profile-pic" src=${image}alt="Phil Mangione">                    
+                    <img class="profile-pic" src=${image} alt="${name}">                    
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author"> ${name} </div>
@@ -106,13 +104,13 @@ posts.forEach (Element => {
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#" data-postid="1">
+                    <a class="like-button js-like-button" href="#" data-postid="${id}">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
                 </div>
                 <div class="likes__counter">
-                    Piace a <b id="like-counter-1" class="js-likes-counter">${likes} </b> persone
+                    Piace a <b class="js-likes-counter">${likes} </b> persone
                 </div>
             </div> 
         </div>
@@ -121,4 +119,15 @@ posts.forEach (Element => {
         container.innerHTML += myPost; 
 });
 
-
+// Aggiungo un event listener a tutto il documento
+document.addEventListener('click', function (event) {
+    // Verifico se l'elemento cliccato è un tasto "Mi Piace"
+    if (event.target.classList.contains('js-like-button')) {
+        
+        // Ottieni l'id del post dal data attributo
+        const postId = event.target.getAttribute('data-postid');
+        
+        // Chiamiamo la funzione likePost passando l'id del post
+        likePost(postId);
+    }
+});
